@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongchao.cms.service.mapper.UserMapper">
+
+
+    <!--<select id="getCustomer" resultType="com.godlikehzj.guangming.bean.Customer">-->
+        <!--<![CDATA[-->
+        <!--SELECT * FROM customer WHERE phone = #{phone}-->
+        <!--]]>-->
+    <!--</select>-->
+
+    <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
+        <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->
+    <!--</insert>-->
+</mapper>
