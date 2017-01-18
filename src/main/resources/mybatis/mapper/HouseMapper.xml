@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongchao.cms.service.mapper.HouseMapper">
+
+
+    <select id="getHouseInfo" resultType="com.hongchao.cms.bean.HouseInfo">
+    <![CDATA[
+    SELECT * FROM house WHERE status = #{status};
+    ]]>
+    </select>
+
+    <insert id="createHouse">
+        INSERT INTO house(hname, addr, lng, lat, status) VALUES (#{hname}, #{addr}, #{lng}, #{lat}, 1);
+    </insert>
+    <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
+    <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->
+    <!--</insert>-->
+</mapper>
