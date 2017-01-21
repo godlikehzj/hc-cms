@@ -18,6 +18,8 @@ public class HouseInfo {
     private String res_info;
     private Double lng;
     private Double lat;
+    private String indoor;
+    private String outdoor;
 
     public HouseInfo() {
     }
@@ -130,7 +132,24 @@ public class HouseInfo {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(Double lat)
+    {
         this.lat = lat;
+    }
+
+    public String getIndoor() {
+        return indoor;
+    }
+
+    public void setIndoor(String indoor) {
+        this.indoor = indoor;
+    }
+
+    public String getOutdoor() {
+        return outdoor;
+    }
+
+    public void setOutdoor(String outdoor) {
+        this.outdoor = outdoor;
     }
 }

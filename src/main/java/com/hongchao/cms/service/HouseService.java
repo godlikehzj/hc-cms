@@ -2,6 +2,8 @@ package com.hongchao.cms.service;
 
 import com.hongchao.cms.bean.HouseInfo;
 import com.hongchao.cms.service.mapper.HouseMapper;
+import com.hongchao.cms.util.ResponseEntity;
+import com.hongchao.cms.util.SysApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,35 @@ public class HouseService {
 
     public List<HouseInfo> getHouseList(int status){
         return houseMapper.getHouseInfo(status);
+    }
+
+    public HouseInfo getHouseById(long id){
+        return houseMapper.getHouseById(id);
+    }
+
+    public ResponseEntity addHouse(String hname, String addr, String location){
+        String[] locations = location.split(",");
+        Double lng = Double.valueOf(locations[0]);
+        Double lat = Double.valueOf(locations[1]);
+//        houseMapper.createHouse(hname, addr, lng, lat);
+        return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
+    }
+
+    public ResponseEntity editHouse(long id, String hname, String addr, String location){
+        String[] locations = location.split(",");
+        Double lng = Double.valueOf(locations[0]);
+        Double lat = Double.valueOf(locations[1]);
+        houseMapper.editHouse(hname, addr, lng, lat, id);
+        return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
+    }
+
+    public ResponseEntity changeStatus(Long houseId, int statu){
+        if (statu == 1){
+            statu = 0;
+        }else{
+            statu =1;
+        }
+        houseMapper.changeStatu(houseId, statu);
+        return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
     }
 }

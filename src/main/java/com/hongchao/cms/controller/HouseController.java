@@ -2,6 +2,7 @@ package com.hongchao.cms.controller;
 
 import com.hongchao.cms.bean.HouseInfo;
 import com.hongchao.cms.service.HouseService;
+import com.hongchao.cms.service.mapper.HouseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,13 +17,14 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "house")
-public class HouseController {
+public class HouseController extends BaseController{
     @Autowired
     private HouseService houseService;
 
     @RequestMapping(value = "list.do")
     public String getHouseList(ModelMap modelMap,int status) {
         List<HouseInfo> lists = houseService.getHouseList(status);
+        modelMap.addAttribute("status", status);
         modelMap.addAttribute("houseLists", lists);
 
         return "list.jsp";
@@ -33,13 +35,39 @@ public class HouseController {
         return "add.jsp";
     }
 
+    @RequestMapping(value = "toEdit.do")
+    public String toEditHouse(ModelMap modelMap, long houseId){
+        HouseInfo houseInfo = houseService.getHouseById(houseId);
+        modelMap.addAttribute("houseInfo", houseInfo);
+
+        return "edit.jsp";
+    }
+
     @RequestMapping(value = "add.do")
-    public String addHouse(HttpServletRequest request,
+    public void addHouse(HttpServletRequest request,
                          HttpServletResponse response,
                          String hname,
                          String addr,
-                           String location){
+                         String location){
         System.out.print(hname + addr + location);
-        return "list.jsp";
+
+        outResult(request, response,"json", houseService.addHouse(hname, addr, location));
+    }
+
+    @RequestMapping(value = "edit.do")
+    public void editHouse(HttpServletRequest request,
+                          HttpServletResponse response,
+                          String hname,
+                          String addr,
+                          String location,
+                          long id){
+        outResult(request, response,"json", houseService.editHouse(id, hname, addr, location));
+    }
+    @RequestMapping(value = "changeStatu.do")
+    public void changeStatu(HttpServletRequest request,
+                            HttpServletResponse response,
+                            Long houseId,
+                            int statu){
+        outResult(request, response, "json", houseService.changeStatus(houseId, statu));
     }
 }

@@ -10,9 +10,21 @@
     </select>
 
     <insert id="createHouse">
-        INSERT INTO house(hname, addr, lng, lat, status) VALUES (#{hname}, #{addr}, #{lng}, #{lat}, 1);
+        INSERT INTO house(hname, addr, lng, lat, status, indoor, outdoor, res_info) VALUES (#{hname}, #{addr}, #{lng}, #{lat}, 1, "111111111", "111111111", "000000000");
     </insert>
     <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
     <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->
     <!--</insert>-->
+
+    <update id="changeStatu">
+        UPDATE house SET status = #{statu} WHERE id = #{hid}
+    </update>
+
+    <select id="getHouseById" resultType="com.hongchao.cms.bean.HouseInfo">
+        SELECT * FROM house WHERE id = #{houseId}
+    </select>
+
+    <update id="editHouse">
+        UPDATE house SET hname = #{hname}, addr = #{addr},lng=#{lng},lat=#{lat} WHERE id = #{houseId}
+    </update>
 </mapper>

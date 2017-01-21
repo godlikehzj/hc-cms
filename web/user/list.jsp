@@ -21,15 +21,15 @@
         <div class="panel panel-default plain toggle panelClose panelRefresh">
           <!-- Start .panel -->
           <div class="panel-heading white-bg">
-            <h4 class="panel-title">垃圾屋列表</h4>
+            <h4 class="panel-title">${roleText}列表</h4>
           </div>
           <div class="panel-body">
             <div class="row">
               <div class="col-md-6 col-xs-12 ">
-                <button id="create_house" onclick="house.toAdd_house()" type="button" class="btn btn-success">新建</button>
+                <button id="create_house" onclick="user.toAdd_user(${role})" type="button" class="btn btn-success">新建</button>
                 <select id="select_statu" style="margin-left: 20px" onchange="queryByStatus()">
-                  <option value="1" <c:if test="${status==1}">selected="selected" </c:if>>上线</option>
-                  <option value="0" <c:if test="${status==0}">selected="selected" </c:if>>下线</option>
+                  <option value="1" <c:if test="${status==1}">selected="selected" </c:if>>正常</option>
+                  <option value="0" <c:if test="${status==0}">selected="selected" </c:if>>冻结</option>
                 </select>
               </div>
             </div>
@@ -37,23 +37,23 @@
               <thead>
               <tr>
                 <th>id</th>
-                <th>名称</th>
-                <th>描述</th>
-                <th>位置</th>
+                <th>电话</th>
+                <th>姓名</th>
+                <th>垃圾屋ID</th>
+                <th>业绩</th>
                 <th>操作</th>
-                <th>详细信息</th>
               </tr>
               </thead>
 
               <tbody>
-              <c:forEach var="house" items="${houseLists}">
+              <c:forEach var="user" items="${users}">
                 <tr>
-                  <td>${house.id}</td>
-                  <td>${house.hname}</td>
-                  <td>${house.addr}</td>
-                  <td>${house.lng},${house.lat}</td>
-                  <td><a href="javascript:void(0);" onclick="changeStatu(${house.id}, ${status});" >${status==1?"下线":"上线"}</a> | <a href="javascript:void(0);" onclick="house.toEdit_house(${house.id});" >修改</a> </td>
+                  <td>${user.id}</td>
+                  <td>${user.mobile}</td>
+                  <td>${user.name}</td>
+                  <td>${user.houseIds}</td>
                   <td>查看</td>
+                  <td><a href="javascript:void(0);" onclick="changeStatu(${user.id}, ${status});" >${status==1?"冻结":"解冻"}</a> | <a href="javascript:void(0);" onclick="user.toEdit_user(${user.id}, ${role});" >修改</a> </td>
                 </tr>
               </c:forEach>
 
@@ -65,18 +65,18 @@
       </div>
     </div>
   </div>
-  </div>
+</div>
 
 <script type="text/javascript">
-  function changeStatu(houseId, statu){
+  function changeStatu(userId, status){
     $.ajax({
       type : "GET",
-      url : addr + "house/changeStatu.do?" + "houseId=" + houseId + "&statu=" + statu,
+      url : addr + "user/changeStatu.do?" + "userId=" + userId + "&status=" + status,
       error : function() {
       },
       success : function(ret) {
         if (ret.status == 0){
-          house.getHouseList(statu)
+          user.getUserList("${role}", status);
         } else{
           alert(ret.message);
         }
@@ -84,15 +84,8 @@
     });
   }
 
-  function getStatuText(){
-    if (statu == 1){
-      return "下线";
-    }else if (statu = 0){
-      return "上线";
-    }
-  }
   function queryByStatus(){
     var statu = $("#select_statu option:selected").val();
-    house.getHouseList(statu);
+    user.getUserList("${role}", statu);
   }
-  </script>
+</script>

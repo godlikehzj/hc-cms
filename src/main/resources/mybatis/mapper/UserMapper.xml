@@ -3,6 +3,9 @@
 <mapper namespace="com.hongchao.cms.service.mapper.UserMapper">
 
 
+    <select id="getUsers" resultType="com.hongchao.cms.bean.User">
+        SELECT * FROM users WHERE role = #{role} and status = #{status}
+    </select>
     <!--<select id="getCustomer" resultType="com.godlikehzj.guangming.bean.Customer">-->
         <!--<![CDATA[-->
         <!--SELECT * FROM customer WHERE phone = #{phone}-->
@@ -12,4 +15,21 @@
     <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
         <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->
     <!--</insert>-->
+
+    <insert id="addUser">
+        INSERT INTO users(mobile, name, role, create_time, status, houseIds) VALUES
+        (#{mobile}, #{name}, #{role}, now(), 1, #{houseIds})
+    </insert>
+
+    <update id="changeStatu">
+        UPDATE users SET status = #{status} WHERE id = #{userId}
+    </update>
+
+    <select id="getUserByid" resultType="com.hongchao.cms.bean.User">
+        SELECT * FROM users WHERE id=#{userId}
+    </select>
+
+    <update id="editUser">
+        UPDATE users SET mobile = #{mobile}, name = #{name}, houseIds = #{houseIds} WHERE id = #{userId}
+    </update>
 </mapper>

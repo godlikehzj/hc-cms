@@ -14,4 +14,13 @@ public interface HouseMapper {
                             @Param("addr") String addr,
                             @Param("lng") Double lng,
                             @Param("lat") Double lat);
+
+    public void editHouse(@Param("hname") String hname,
+                            @Param("addr") String addr,
+                            @Param("lng") Double lng,
+                            @Param("lat") Double lat,
+                          @Param("houseId") long houseId);
+
+    public void changeStatu(@Param("hid") long hid, @Param("statu") int statu);
+    public HouseInfo getHouseById(@Param("houseId") long houseId);
 }
