@@ -29,7 +29,27 @@
         SELECT * FROM users WHERE id=#{userId}
     </select>
 
+    <select id="getUserByMobile" resultType="com.hongchao.cms.bean.User">
+        SELECT * FROM users WHERE mobile = #{mobile}
+    </select>
+
     <update id="editUser">
         UPDATE users SET mobile = #{mobile}, name = #{name}, houseIds = #{houseIds} WHERE id = #{userId}
     </update>
+
+    <select id="getAdminUser" resultType="com.hongchao.cms.bean.AdminUser">
+        SELECT * FROM admin_user WHERE passport = #{passport}
+    </select>
+
+    <select id="getAchieveHisByUser" resultType="com.hongchao.cms.bean.AchieveHistory">
+        SELECT h.hname, a.createDate, a.num, a.weight
+        FROM achieve_history as a, house as h
+        WHERE a.uid = #{userId} and h.id = a.hid ORDER BY a.id DESC ;
+    </select>
+
+    <select id="getOrderHistory" resultType="com.hongchao.cms.bean.Order">
+        SELECT h.hname, c.description as commodityName, o.orderSn, o.createTime, o.pay_method ,c.price
+        FROM pay_orders as o,house as h, commodity as c
+        WHERE o.uid = #{userId} and o.hid = h.id and c.id = o.commodityId ORDER BY o.id DESC ;
+    </select>
 </mapper>

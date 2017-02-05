@@ -53,7 +53,7 @@
                   <td>${house.addr}</td>
                   <td>${house.lng},${house.lat}</td>
                   <td><a href="javascript:void(0);" onclick="changeStatu(${house.id}, ${status});" >${status==1?"下线":"上线"}</a> | <a href="javascript:void(0);" onclick="house.toEdit_house(${house.id});" >修改</a> </td>
-                  <td>查看</td>
+                  <td><a href="javascript:void(0);" onclick="house.getDetails(${house.id})">查看</a></td>
                 </tr>
               </c:forEach>
 

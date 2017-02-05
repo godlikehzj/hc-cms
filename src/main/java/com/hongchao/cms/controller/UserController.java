@@ -1,10 +1,12 @@
 package com.hongchao.cms.controller;
 
+import com.hongchao.cms.bean.AchieveHistory;
 import com.hongchao.cms.bean.HouseInfo;
+import com.hongchao.cms.bean.Order;
 import com.hongchao.cms.bean.User;
+import com.hongchao.cms.service.HouseService;
 import com.hongchao.cms.service.UserService;
 import com.hongchao.cms.util.SysApiStatus;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +25,9 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private HouseService houseService;
+
     @RequestMapping(value = "list.do")
     public String getList(ModelMap modelMap,int role, int status){
         List<User> users = userService.getUsers(role, status);
@@ -38,6 +43,8 @@ public class UserController extends BaseController{
     public String toAddUser(ModelMap modelMap, int role){
         modelMap.addAttribute("role", role);
         modelMap.addAttribute("roleText", SysApiStatus.roles.get(role));
+        List<HouseInfo> list = houseService.getHouseList(1);
+        modelMap.addAttribute("houseList", list);
         return "add.jsp";
     }
 
@@ -46,6 +53,16 @@ public class UserController extends BaseController{
         User user = userService.getUserById(userId);
         modelMap.addAttribute("role", role);
         modelMap.addAttribute("roleText", SysApiStatus.roles.get(role));
+        List<HouseInfo> list = houseService.getHouseList(1);
+        String[] ids = user.getHouseIds().split(",");
+        for(HouseInfo houseInfo:list){
+            for(String id : ids){
+                if (id.equals(String.valueOf(houseInfo.getId()))){
+                    houseInfo.setOwner(1);
+                }
+            }
+        }
+        modelMap.addAttribute("houseList", list);
         modelMap.addAttribute("user", user);
 
         return "edit.jsp";
@@ -77,5 +94,28 @@ public class UserController extends BaseController{
                             Long userId,
                             int status){
         outResult(request, response, "json", userService.changeStatus(userId, status));
+    }
+
+    @RequestMapping(value = "achieveHis.do")
+    public String getAchieveHistory(ModelMap modelMap, Long userId,int role){
+        User user = userService.getUserById(userId);
+
+        List<AchieveHistory> achieveHistories = userService.getAchieveHistoryByUser(userId);
+        modelMap.addAttribute("achieveHistoryList", achieveHistories);
+        modelMap.addAttribute("role", role);
+        modelMap.addAttribute("user", user);
+
+        return "achievehis.jsp";
+    }
+
+    @RequestMapping(value = "orderHis.do")
+    public String getOrderHistory(ModelMap modelMap, Long userId, int role){
+        User user = userService.getUserById(userId);
+        List<Order> orderList = userService.getOrderHistoryByUser(userId);
+        modelMap.addAttribute("orderHistoryList", orderList);
+        modelMap.addAttribute("role", role);
+        modelMap.addAttribute("user", user);
+
+        return "orderhis.jsp";
     }
 }

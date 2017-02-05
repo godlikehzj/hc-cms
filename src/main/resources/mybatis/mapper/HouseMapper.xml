@@ -27,4 +27,32 @@
     <update id="editHouse">
         UPDATE house SET hname = #{hname}, addr = #{addr},lng=#{lng},lat=#{lat} WHERE id = #{houseId}
     </update>
+
+    <select id="getFixHistory" resultType="com.hongchao.cms.bean.FixHistory">
+        SELECT u.mobile, u.name, fh.hid, fh.fid as content, fh.createTime, fh.other_content,fh.status
+        FROM users as u, fix_history as fh
+        WHERE fh.hid = #{houseId} and fh.uid = u.id  ORDER BY fh.createTime DESC;
+    </select>
+
+    <select id="getFixContents" resultType="com.hongchao.cms.bean.FixContent">
+        SELECT * FROM fix_content WHERE status = 1;
+    </select>
+
+    <select id="getUsersByhouseId" resultType="com.hongchao.cms.bean.User">
+        SELECT * FROM users WHERE role = #{role} and houseIds = #{houseId} or
+        houseIds like concat('%,', #{houseId}) or houseIds like concat(#{houseId}, ',%')
+        or houseIds like concat('%,', #{houseId}, ',%')
+    </select>
+
+    <select id="getAchieveHis" resultType="com.hongchao.cms.bean.AchieveHistory">
+        SELECT u.mobile, u.name, h.hname, a.createDate, a.num, a.weight
+        FROM achieve_history as a, users as u, house as h
+        WHERE a.hid = #{houseId} and u.id = a.uid and h.id = a.hid ORDER BY a.id DESC ;
+    </select>
+
+    <select id="getOrderHistory" resultType="com.hongchao.cms.bean.Order">
+        SELECT u.mobile, u.name, c.description as commodityName, o.orderSn, o.createTime, o.pay_method ,c.price
+         FROM pay_orders as o, users as u, commodity as c
+        WHERE o.hid = #{houseId} and o.uid = u.id and c.id = o.commodityId ORDER BY o.id DESC ;
+    </select>
 </mapper>

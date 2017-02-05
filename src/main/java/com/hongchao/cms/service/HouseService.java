@@ -1,13 +1,15 @@
 package com.hongchao.cms.service;
 
-import com.hongchao.cms.bean.HouseInfo;
+import com.hongchao.cms.bean.*;
 import com.hongchao.cms.service.mapper.HouseMapper;
+import com.hongchao.cms.util.Config;
 import com.hongchao.cms.util.ResponseEntity;
 import com.hongchao.cms.util.SysApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by godlikehzj on 2017/1/12.
@@ -23,6 +25,20 @@ public class HouseService {
 
     public HouseInfo getHouseById(long id){
         return houseMapper.getHouseById(id);
+    }
+
+    public List<FixHistory> getFixHistory(long houseId){
+        List<FixHistory> list = houseMapper.getFixHistory(houseId);
+        Map<Integer, String> fixContents = Config.getFixContents();
+        for(FixHistory fixHistory : list){
+            String[] fids = fixHistory.getContent().split(",");
+            String content = "";
+            for(String fid : fids){
+                content += fixContents.get(Integer.valueOf(fid)) + " ";
+            }
+            fixHistory.setContent(content);
+        }
+        return list;
     }
 
     public ResponseEntity addHouse(String hname, String addr, String location){
@@ -49,5 +65,17 @@ public class HouseService {
         }
         houseMapper.changeStatu(houseId, statu);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
+    }
+
+    public List<User> getUsersByhouseId(long houseId, int role){
+        return houseMapper.getUsersByhouseId(houseId, role);
+    }
+
+    public List<AchieveHistory> getAchieveHistory(long houseId){
+        return houseMapper.getAchieveHis(houseId);
+    }
+
+    public List<Order> getOrderHistory(long houseId){
+        return houseMapper.getOrderHistory(houseId);
     }
 }

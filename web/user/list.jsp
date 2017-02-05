@@ -52,7 +52,7 @@
                   <td>${user.mobile}</td>
                   <td>${user.name}</td>
                   <td>${user.houseIds}</td>
-                  <td>查看</td>
+                  <td><a href="javascript:void(0);" onclick="user.getDetails(${role}, ${user.id})">查看</a></td>
                   <td><a href="javascript:void(0);" onclick="changeStatu(${user.id}, ${status});" >${status==1?"冻结":"解冻"}</a> | <a href="javascript:void(0);" onclick="user.toEdit_user(${user.id}, ${role});" >修改</a> </td>
                 </tr>
               </c:forEach>

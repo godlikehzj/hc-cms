@@ -1,6 +1,6 @@
 package com.hongchao.cms.controller;
 
-import com.hongchao.cms.bean.HouseInfo;
+import com.hongchao.cms.bean.*;
 import com.hongchao.cms.service.HouseService;
 import com.hongchao.cms.service.mapper.HouseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -51,7 +52,7 @@ public class HouseController extends BaseController{
                          String location){
         System.out.print(hname + addr + location);
 
-        outResult(request, response,"json", houseService.addHouse(hname, addr, location));
+        outResult(request, response, "json", houseService.addHouse(hname, addr, location));
     }
 
     @RequestMapping(value = "edit.do")
@@ -69,5 +70,63 @@ public class HouseController extends BaseController{
                             Long houseId,
                             int statu){
         outResult(request, response, "json", houseService.changeStatus(houseId, statu));
+    }
+
+    @RequestMapping(value = "details.do")
+    public String getDetails(ModelMap modelMap, Long houseId){
+
+        modelMap.put("houseId", houseId);
+
+        HouseInfo houseInfo = houseService.getHouseById(houseId);
+        modelMap.addAttribute("houseInfo", houseInfo);
+        String[] capacitys = houseInfo.getCapacity().split(",");
+        modelMap.addAttribute("capacitys", capacitys);
+
+        String indoor = houseInfo.getIndoor();
+        String outdoor = houseInfo.getOutdoor();
+        String resInfo = houseInfo.getRes_info();
+        //资源柜信息
+        List<String[]> zyg = new ArrayList<>();
+        for(int i = 0; i < indoor.length(); i++){
+            zyg.add(new String[]{indoor.substring(i, i + 1), outdoor.substring(i, i + 1), resInfo.substring(i, i + 1)});
+        }
+        modelMap.put("zygs", zyg);
+
+
+        List<User> fenjian = houseService.getUsersByhouseId(houseId, 1);
+        modelMap.put("fenjian", fenjian);
+
+        List<AchieveHistory> achieveHistories = houseService.getAchieveHistory(houseId);
+        modelMap.put("achieveHistory", achieveHistories);
+
+        return "details.jsp";
+    }
+
+    @RequestMapping(value = "fixHis.do")
+    public String getFixHistory(ModelMap modelMap, Long houseId){
+        List<FixHistory> fixHistoryList = houseService.getFixHistory(houseId);
+        modelMap.put("fixHistoryList", fixHistoryList);
+        modelMap.put("houseId", houseId);
+
+        return "fixhis.jsp";
+    }
+
+    @RequestMapping(value = "achieveHis.do")
+    public String getAchieveHistory(ModelMap modelMap, Long houseId){
+
+        List<AchieveHistory> achieveHistories = houseService.getAchieveHistory(houseId);
+        modelMap.put("achieveHistoryList", achieveHistories);
+        modelMap.put("houseId", houseId);
+
+        return "achievehis.jsp";
+    }
+
+    @RequestMapping(value = "orderHis.do")
+    public String getOrderHistory(ModelMap modelMap, Long houseId){
+        List<Order> orderList = houseService.getOrderHistory(houseId);
+        modelMap.put("orderHistoryList", orderList);
+        modelMap.put("houseId", houseId);
+
+        return "orderhis.jsp";
     }
 }

@@ -1,10 +1,55 @@
-var addr = "http://localhost:8082/";
+//var addr = "http://localhost:8082/";
+var addr = "http://123.56.105.105/cms/";
 
 var house = {
     getHouseList : function(status){
         $.ajax({
             type : "GET",
             url : addr + "house/list.do?status="+status,
+            error : function() {
+            },
+            success : function(ret) {
+                $('#content').html(ret);
+            }
+        });
+    },
+    getDetails :function(houseId){
+        $.ajax({
+            type : "GET",
+            url : addr + "house/details.do?houseId="+houseId,
+            error : function() {
+            },
+            success : function(ret) {
+                $('#content').html(ret);
+            }
+        });
+    },
+    getFixHistory : function(houseId){
+        $.ajax({
+            type : "GET",
+            url : addr + "house/fixHis.do?houseId="+houseId,
+            error : function() {
+            },
+            success : function(ret) {
+                $('#content').html(ret);
+            }
+        });
+    },
+    getAchieveHistory:function(houseId){
+        $.ajax({
+            type : "GET",
+            url : addr + "house/achieveHis.do?houseId="+houseId,
+            error : function() {
+            },
+            success : function(ret) {
+                $('#content').html(ret);
+            }
+        });
+    },
+    getOrderHistory:function(houseId){
+        $.ajax({
+            type : "GET",
+            url : addr + "house/orderHis.do?houseId="+houseId,
             error : function() {
             },
             success : function(ret) {
@@ -131,5 +176,30 @@ var user = {
                 }
             }
         });
+    },
+    getDetails : function(role, userId){
+        if (role == 3){
+            $.ajax({
+                type : "GET",
+                url : addr + "user/orderHis.do?userId="+userId + "&role=" + role,
+                error : function() {
+                },
+                success : function(ret) {
+                    $('#content').html(ret);
+                }
+            });
+        }else{
+            $.ajax({
+                type : "GET",
+                url : addr + "user/achieveHis.do?userId="+userId + "&role=" + role,
+                error : function() {
+                },
+                success : function(ret) {
+                    $('#content').html(ret);
+                }
+            });
+
+        }
+
     }
 }

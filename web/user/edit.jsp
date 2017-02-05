@@ -37,8 +37,11 @@
 
               <label class="col-lg-2 col-md-2 col-sm-12 control-label">垃圾屋列表</label>
               <div class="col-lg-10 col-md-10">
-                <input id="houseIds" type="text" class="form-control" name="houseIds" value="${user.houseIds}" autofocus="autofocus">
-                <a href="#myModal" role="button" class="btn btn-alt btn-danger mb25" data-toggle="modal">选择</a>
+                <select id="houseList" multiple="multiple">
+                  <c:forEach var="house" items="${houseList}">
+                    <option value="${house.id}" <c:if test="${house.owner==1}">selected="selected"</c:if>>${house.hname}</option>
+                  </c:forEach>
+                </select>
               </div>
             </div>
             <div class="form-group">
@@ -48,30 +51,7 @@
               </div>
             </div>
           </form>
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title">Modal title</h4>
-                </div>
-                <div class="modal-body">
-                  <!-- content in modal, tinyMCE 4 texarea -->
-                                            <textarea class="modal-example" name="content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis <a href="javascript:if(confirm('http://themes.suggelab.com/sprflat.v1.0.4/le-test-page/de-la-subsub  \n\n���ļ��޷��� Teleport Ultra ����, ��Ϊ ���������淢�����, ��ֹ�����ء�  \n\n�����ڷ������ϴ���?'))window.location='http://themes.suggelab.com/sprflat.v1.0.4/le-test-page/de-la-subsub'" tppabs="http://themes.suggelab.com/sprflat.v1.0.4/le-test-page/de-la-subsub" target="_self"
-                                                                                                                                                                                                                 rel="nofollow">nostrud</a> exercitation <a href="#test" target="_self" rel="nofollow">ullamco</a> laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                                  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                            </textarea>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-              <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-          </div>
+
         </div>
       </div>
     </div>
@@ -80,10 +60,33 @@
 </div>
 
 <script type="text/javascript">
+  var houseIds="";
+  $('#houseList').multiselect(
+          {
+            buttonWidth: '100%',
+            buttonText: function (options, select) {
+              if (options.length === 0) {
+                return '请选择垃圾屋';
+              }
+              else {
+                var labels = [];
+                var values = [];
+                options.each(function () {
+                  values.push($(this).attr('value'));
+
+                  labels.push($(this).html());
+
+                });
+                houseIds = values.join(",");
+                return labels.join(', ') + '';
+              }
+            }
+          }
+  );
+
   function editUser(id){
     var mobile = $('#mobile').val();
     var name = $('#name').val();
-    var houseIds = $('#houseIds').val();
 
     var param = "mobile=" + mobile + "&name=" + name + "&houseIds=" + houseIds + "&userId=" + id;
     user.edit_user(param, "${role}");

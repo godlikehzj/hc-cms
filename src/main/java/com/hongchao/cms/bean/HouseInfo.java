@@ -14,12 +14,13 @@ public class HouseInfo {
     private int aq;
     private int door;
     private int lamp;
-    private int capacity;
+    private String capacity;
     private String res_info;
     private Double lng;
     private Double lat;
     private String indoor;
     private String outdoor;
+    private int owner;
 
     public HouseInfo() {
     }
@@ -104,11 +105,11 @@ public class HouseInfo {
         this.lamp = lamp;
     }
 
-    public int getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
 
@@ -151,5 +152,13 @@ public class HouseInfo {
 
     public void setOutdoor(String outdoor) {
         this.outdoor = outdoor;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
     }
 }

@@ -1,6 +1,6 @@
 package com.hongchao.cms.service.mapper;
 
-import com.hongchao.cms.bean.HouseInfo;
+import com.hongchao.cms.bean.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,4 +23,10 @@ public interface HouseMapper {
 
     public void changeStatu(@Param("hid") long hid, @Param("statu") int statu);
     public HouseInfo getHouseById(@Param("houseId") long houseId);
+    public List<FixHistory> getFixHistory(@Param("houseId") long houseId);
+    public List<FixContent> getFixContents();
+    public List<User> getUsersByhouseId(@Param("houseId") long houseId, @Param("role") int role);
+    public List<AchieveHistory> getAchieveHis(@Param("houseId") long houseId);
+    public List<Order> getOrderHistory(@Param("houseId") long houseId);
+
 }

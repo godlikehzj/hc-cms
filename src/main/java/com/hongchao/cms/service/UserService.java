@@ -1,9 +1,13 @@
 package com.hongchao.cms.service;
 
+import com.hongchao.cms.bean.AchieveHistory;
+import com.hongchao.cms.bean.AdminUser;
+import com.hongchao.cms.bean.Order;
 import com.hongchao.cms.bean.User;
 import com.hongchao.cms.service.mapper.UserMapper;
 import com.hongchao.cms.util.ResponseEntity;
 import com.hongchao.cms.util.SysApiStatus;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +21,26 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    public AdminUser login(AdminUser adminUser){
+        AdminUser temp = userMapper.getAdminUser(adminUser.getPassport());
+        if (temp == null){
+            return null;
+        }
+        String password = DigestUtils.md5Hex(adminUser.getPassword());
+        if (password.equals(temp.getPassword())){
+            return temp;
+        }
+        return null;
+    }
+
     public List<User> getUsers(int role, int statu){
         return userMapper.getUsers(role, statu);
     }
 
     public ResponseEntity addUser(int role, String mobile, String name, String houseIds){
+        if (userMapper.getUserByMobile(mobile) != null){
+            return new ResponseEntity(1, "手机用户已存在","");
+        }
         userMapper.addUser(role, mobile, name, houseIds);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
     }
@@ -43,5 +62,12 @@ public class UserService {
     public ResponseEntity editUser(long id, String mobile, String name, String houseIds){
         userMapper.editUser(houseIds, mobile, name, id);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
+    }
+    public List<AchieveHistory> getAchieveHistoryByUser(long userId){
+        return userMapper.getAchieveHisByUser(userId);
+    }
+
+    public List<Order> getOrderHistoryByUser(long userId){
+        return userMapper.getOrderHistory(userId);
     }
 }
