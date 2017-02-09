@@ -5,6 +5,9 @@
 
     <select id="getUsers" resultType="com.hongchao.cms.bean.User">
         SELECT * FROM users WHERE role = #{role} and status = #{status}
+        and if(#{province}, province = #{province}, TRUE)
+    and if(#{city}, city = #{city}, TRUE)
+    and if(#{district}, district = #{district}, TRUE)
     </select>
     <!--<select id="getCustomer" resultType="com.godlikehzj.guangming.bean.Customer">-->
         <!--<![CDATA[-->
@@ -17,8 +20,8 @@
     <!--</insert>-->
 
     <insert id="addUser">
-        INSERT INTO users(mobile, name, role, create_time, status, houseIds) VALUES
-        (#{mobile}, #{name}, #{role}, now(), 1, #{houseIds})
+        INSERT INTO users(mobile, name, role, create_time, status, houseIds, province, city, district) VALUES
+        (#{mobile}, #{name}, #{role}, now(), 1, #{houseIds}, #{province}, #{city}, #{district})
     </insert>
 
     <update id="changeStatu">

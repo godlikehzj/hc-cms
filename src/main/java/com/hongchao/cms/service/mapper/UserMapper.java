@@ -12,11 +12,18 @@ import java.util.List;
  * Created by godlikehzj on 2017/1/9.
  */
 public interface UserMapper {
-    public List<User> getUsers(@Param("role") int role, @Param("status") int status);
+    public List<User> getUsers(@Param("role") int role,
+                               @Param("status") int status,
+                               @Param("province") int province,
+                               @Param("city") int city,
+                               @Param("district") int district);
     public void addUser(@Param("role") int role,
                         @Param("mobile") String mobile,
                         @Param("name") String name,
-                        @Param("houseIds") String houseIds);
+                        @Param("houseIds") String houseIds,
+                        @Param("province") int province,
+                        @Param("city") int city,
+                        @Param("district") int district);
     public void changeStatu(@Param("userId") long userId, @Param("status") int status);
 
     public User getUserByid(@Param("userId") long userId);

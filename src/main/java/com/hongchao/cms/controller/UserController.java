@@ -29,8 +29,12 @@ public class UserController extends BaseController{
     private HouseService houseService;
 
     @RequestMapping(value = "list.do")
-    public String getList(ModelMap modelMap,int role, int status){
-        List<User> users = userService.getUsers(role, status);
+    public String getList(HttpServletRequest request, ModelMap modelMap,int role, int status){
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
+
+        List<User> users = userService.getUsers(role, status, province, city, district);
         modelMap.addAttribute("role", role);
         modelMap.addAttribute("roleText", SysApiStatus.roles.get(role));
         modelMap.addAttribute("status", status);
@@ -40,20 +44,28 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(value = "toAdd.do")
-    public String toAddUser(ModelMap modelMap, int role){
+    public String toAddUser(HttpServletRequest request, ModelMap modelMap, int role){
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
+
         modelMap.addAttribute("role", role);
         modelMap.addAttribute("roleText", SysApiStatus.roles.get(role));
-        List<HouseInfo> list = houseService.getHouseList(1);
+        List<HouseInfo> list = houseService.getHouseList(1, province, city, district);
         modelMap.addAttribute("houseList", list);
         return "add.jsp";
     }
 
     @RequestMapping(value = "toEdit.do")
-    public String toEditUser(ModelMap modelMap, long userId, int role){
+    public String toEditUser(HttpServletRequest request, ModelMap modelMap, long userId, int role){
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
+
         User user = userService.getUserById(userId);
         modelMap.addAttribute("role", role);
         modelMap.addAttribute("roleText", SysApiStatus.roles.get(role));
-        List<HouseInfo> list = houseService.getHouseList(1);
+        List<HouseInfo> list = houseService.getHouseList(1, province, city, district);
         String[] ids = user.getHouseIds().split(",");
         for(HouseInfo houseInfo:list){
             for(String id : ids){
@@ -75,7 +87,11 @@ public class UserController extends BaseController{
                         String name,
                         String houseIds,
                         int role){
-        outResult(request, response, "json", userService.addUser(role, mobile, name, houseIds));
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
+
+        outResult(request, response, "json", userService.addUser(role, mobile, name, houseIds, province, city, district));
     }
 
     @RequestMapping(value = "edit.do")

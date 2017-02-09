@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Dashboard | sprFlat - Admin Template</title>
+    <title>虹巢环保管理后台</title>
     <!-- Mobile specific metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Force IE9 to render in normal mode -->
@@ -94,6 +94,7 @@
     <!--<script src="assets/js/pages/dashboard.js" tppabs="assets/js/pages/dashboard.js"></script>-->
     <!--<script src="assets/js/jquery.sumoselect.min.js"></script>-->
     <script src="assets/js/bootstrap/bootstrap-multiselect.js"></script>
+    <script src="src/js/china_area.js"></script>
 </head>
 <body>
 <!-- Start #header -->
@@ -146,14 +147,27 @@
                     </button>
                 </form>
             </li>
+            <li style="padding: 15px">
+
+                <select id="selProvince" style="width: 80%">
+                    <option value="0">--请选择省份--</option>
+                </select>
+                <select id="selCity" style="width: 80%;margin-top: 10px">
+                    <option value="0">--请选择城市--</option>
+                </select>
+                <select id="selDistrict" style="width: 80%;margin-top: 10px">
+                    <option value="0">--请选择区/县--</option>
+                </select>
+            </li>
+
             <li><a href="index2.html" tppabs="index.html">首页 <i class="im-screen"></i></a>
             </li>
             <li>
-                <a href="#"> 屋子管理 <i class="im-paragraph-justify"></i></a>
+                <a href="#"> 屋子管理 <i class="im-home"></i></a>
                 <ul class="nav sub">
-                    <li><a href="#" onclick="house.getHouseList(1)" ><i class="im-checkbox-checked"></i> 列表模式</a>
+                    <li><a href="#" onclick="house.getHouseList(1)" ><i class="im-paragraph-justify"></i> 列表模式</a>
                     </li>
-                    <li><a href="#" tppabs="form-wizard.html"><i class="im-wand"></i>地图模式</a>
+                    <li><a href="#" tppabs="form-wizard.html"><i class="ec-location"></i>地图模式</a>
                     </li>
                 </ul>
             </li>
@@ -161,13 +175,13 @@
             <li>
                 <a href="#" onclick="user.getUserList(1, 1)"><i class="en-upload"></i>分拣员管理</a>
             </li>
-            <li><a href="#" onclick="user.getUserList(3, 1)"><i class="im-images"></i>回收员管理</a>
+            <li><a href="#" onclick="user.getUserList(3, 1)"><i class="im-loop2"></i>回收员管理</a>
             </li>
-            <li><a href="#" onclick="user.getUserList(2, 1)"><i class="st-diamond"></i>清运管理</a>
+            <li><a href="#" onclick="user.getUserList(2, 1)"><i class="im-truck"></i>清运管理</a>
             </li>
-            <li><a href="#" ><i class="st-diamond"></i>投放用户管理</a>
+            <li><a href="#" ><i class="im-users"></i>投放用户管理</a>
             </li>
-            <li><a href="#" ><i class="st-diamond"></i>商城管理</a>
+            <li><a href="#" ><i class="im-cart3"></i>商城管理</a>
             </li>
         </ul>
         <!-- End #sideNav -->
@@ -200,4 +214,34 @@
 
 <!-- endbuild -->
 </body>
+<script type="text/javascript">
+    $(function() {
+        $.each(provinceJson, function(k, p) {
+            var option = "<option value='" + p.id + "'>" + p.province + "</option>";
+            $("#selProvince").append(option);
+        });
+        $("#selProvince").change(function() {
+            var selValue = $(this).val();
+            $("#selCity option:gt(0)").remove();
+            $("#selDistrict option:gt(0)").remove();
+
+            $.each(cityJson, function(k, p) {
+                if (p.id == selValue || p.parent == selValue) {
+                    var option = "<option value='" + p.id + "'>" + p.city + "</option>";
+                    $("#selCity").append(option);
+                }
+            });
+        });
+        $("#selCity").change(function() {
+            var selValue = $(this).val();
+            $("#selDistrict option:gt(0)").remove();
+            $.each(countyJson, function(k, p) {
+                if (p.parent == selValue) {
+                    var option = "<option value='" + p.id + "'>" + p.county + "</option>";
+                    $("#selDistrict").append(option);
+                }
+            });
+        });
+    });
+</script>
 </html>

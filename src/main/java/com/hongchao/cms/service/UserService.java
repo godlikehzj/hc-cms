@@ -33,15 +33,15 @@ public class UserService {
         return null;
     }
 
-    public List<User> getUsers(int role, int statu){
-        return userMapper.getUsers(role, statu);
+    public List<User> getUsers(int role, int statu, int province, int city, int district){
+        return userMapper.getUsers(role, statu, province, city, district);
     }
 
-    public ResponseEntity addUser(int role, String mobile, String name, String houseIds){
+    public ResponseEntity addUser(int role, String mobile, String name, String houseIds, int province, int city, int district){
         if (userMapper.getUserByMobile(mobile) != null){
             return new ResponseEntity(1, "手机用户已存在","");
         }
-        userMapper.addUser(role, mobile, name, houseIds);
+        userMapper.addUser(role, mobile, name, houseIds, province, city, district);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
     }
 

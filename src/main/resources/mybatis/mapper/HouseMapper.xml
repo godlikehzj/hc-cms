@@ -5,12 +5,15 @@
 
     <select id="getHouseInfo" resultType="com.hongchao.cms.bean.HouseInfo">
     <![CDATA[
-    SELECT * FROM house WHERE status = #{status};
+    SELECT * FROM house WHERE status = #{status} and if(#{province}, province = #{province}, TRUE)
+    and if(#{city}, city = #{city}, TRUE)
+    and if(#{district}, district = #{district}, TRUE)
     ]]>
     </select>
 
     <insert id="createHouse">
-        INSERT INTO house(hname, addr, lng, lat, status, indoor, outdoor, res_info) VALUES (#{hname}, #{addr}, #{lng}, #{lat}, 1, "111111111", "111111111", "000000000");
+        INSERT INTO house(hname, addr, lng, lat, status, indoor, outdoor, res_info, province, city, district) VALUES
+        (#{hname}, #{addr}, #{lng}, #{lat}, 1, "111111111", "111111111", "000000000", #{province}, #{city}, #{district});
     </insert>
     <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
     <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->

@@ -19,8 +19,8 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
-    public List<HouseInfo> getHouseList(int status){
-        return houseMapper.getHouseInfo(status);
+    public List<HouseInfo> getHouseList(int status, int province, int city, int district){
+        return houseMapper.getHouseInfo(status, province, city, district);
     }
 
     public HouseInfo getHouseById(long id){
@@ -41,11 +41,11 @@ public class HouseService {
         return list;
     }
 
-    public ResponseEntity addHouse(String hname, String addr, String location){
+    public ResponseEntity addHouse(String hname, String addr, String location, int province, int city, int district){
         String[] locations = location.split(",");
         Double lng = Double.valueOf(locations[0]);
         Double lat = Double.valueOf(locations[1]);
-//        houseMapper.createHouse(hname, addr, lng, lat);
+        houseMapper.createHouse(hname, addr, lng, lat, province, city, district);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
     }
 

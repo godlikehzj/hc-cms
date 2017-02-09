@@ -9,11 +9,17 @@ import java.util.List;
  * Created by godlikehzj on 2017/1/12.
  */
 public interface HouseMapper {
-    public List<HouseInfo> getHouseInfo(@Param("status") int status);
+    public List<HouseInfo> getHouseInfo(@Param("status") int status,
+                                        @Param("province") int province,
+                                        @Param("city") int city,
+                                        @Param("district") int district);
     public void createHouse(@Param("hname") String hname,
                             @Param("addr") String addr,
                             @Param("lng") Double lng,
-                            @Param("lat") Double lat);
+                            @Param("lat") Double lat,
+                            @Param("province") int province,
+                            @Param("city") int city,
+                            @Param("district") int district);
 
     public void editHouse(@Param("hname") String hname,
                             @Param("addr") String addr,

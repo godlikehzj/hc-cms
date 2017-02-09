@@ -23,8 +23,12 @@ public class HouseController extends BaseController{
     private HouseService houseService;
 
     @RequestMapping(value = "list.do")
-    public String getHouseList(ModelMap modelMap,int status) {
-        List<HouseInfo> lists = houseService.getHouseList(status);
+    public String getHouseList(HttpServletRequest request, ModelMap modelMap,int status) {
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
+
+        List<HouseInfo> lists = houseService.getHouseList(status, province, city, district);
         modelMap.addAttribute("status", status);
         modelMap.addAttribute("houseLists", lists);
 
@@ -51,8 +55,11 @@ public class HouseController extends BaseController{
                          String addr,
                          String location){
         System.out.print(hname + addr + location);
+        Integer province = Integer.valueOf(request.getHeader("province"));
+        Integer city = Integer.valueOf(request.getHeader("city"));
+        Integer district = Integer.valueOf(request.getHeader("district"));
 
-        outResult(request, response, "json", houseService.addHouse(hname, addr, location));
+        outResult(request, response, "json", houseService.addHouse(hname, addr, location, province, city, district));
     }
 
     @RequestMapping(value = "edit.do")
