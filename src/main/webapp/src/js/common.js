@@ -415,5 +415,10 @@ var mall ={
         clearInterval(timerId);
         var url = addr + "mall/toAdd.do";
         getContent(url);
+    },
+    toEdit_Commodity : function (id) {
+        clearInterval(timerId);
+        var url = addr + "mall/toEdit.do?id="+id;
+        getContent(url);
     }
 }

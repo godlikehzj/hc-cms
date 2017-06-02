@@ -3,6 +3,7 @@ package com.hongchao.cms.controller;
 import com.hongchao.cms.bean.CustomerInfo;
 import com.hongchao.cms.bean.MallCommodity;
 import com.hongchao.cms.service.MallService;
+import com.hongchao.cms.util.Config;
 import com.hongchao.cms.util.ResponseEntity;
 import com.hongchao.cms.util.SysApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,10 @@ public class MallController extends BaseController{
         commodity.setCost_point(cost_point);
         commodity.setImg("");
         commodity.setStatu(1);
+        String imgUrl = mallService.uploadImg(request, Config.imgPath);
+        if (imgUrl != null){
+            commodity.setImg(imgUrl);
+        }
         mallService.addCommodity(commodity);
 
         outResult(request, response, "json", new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), ""));
@@ -75,6 +80,17 @@ public class MallController extends BaseController{
                               String name,
                               String description,
                               Integer cost_point){
+        MallCommodity commodity = mallService.getCommodityById(id);
+        commodity.setName(name);
+        commodity.setDescription(description);
+        commodity.setCost_point(cost_point);
+        commodity.setImg("");
+        commodity.setStatu(1);
+        String imgUrl = mallService.uploadImg(request, Config.imgPath);
+        if (imgUrl != null){
+            commodity.setImg(imgUrl);
+        }
+        mallService.addCommodity(commodity);
         outResult(request, response, "json", new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), ""));
     }
 }

@@ -12,6 +12,7 @@ import java.util.Map;
  * Created by godlikehzj on 2017/1/26.
  */
 public class Config {
+    public static String imgPath = "./";
     private static Map<Integer, String> fixContents = new HashMap<>();
 
     public static Map<Integer, String> getFixContents(){

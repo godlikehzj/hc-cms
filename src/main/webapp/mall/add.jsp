@@ -20,7 +20,7 @@
           <h3 class="panel-title">创建商品</h3>
         </div>
         <div class="panel-body">
-          <form id="create_mc" name="create_mc" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped" role="form">
+          <form id="create_mc" name="create_mc" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped">
             <div class="form-group">
               <label class="col-lg-2 col-md-2 col-sm-12 control-label">名称</label>
               <div class="col-lg-10 col-md-10">
@@ -50,7 +50,7 @@
 
             <div class="form-group">
               <div class="col-lg-2 col-md-2 col-sm-12 control-label ">
-                <button id="create_user_button" type="button" class="btn btn-success">提交</button>
+                <a href="javascript:void(0);"  id="create_user_button" class="btn btn-success">提交</a>
                 <button onclick="mall.getCommodityList(1)" type="button" class="btn btn-primary">返回</button>
 
               </div>
@@ -69,14 +69,18 @@
 <script type="text/javascript">
 $(function(){
 
+//    var options = {
+//        success : mall.getCommodityList(1)
+//    };
+//    $('#create_mc').ajaxForm(options);
+
   $('#create_user_button').bind('click',function(){
 
-    $('#create_mc').submit();
+      $('#create_mc').ajaxSubmit(function () {
+          mall.getCommodityList(1);
+      });
   });
 
-  var options = {
-    success : mall.getCommodityList(1)
-  };
-  $('#create_mc').ajaxForm(options);
+
 })
 </script>
