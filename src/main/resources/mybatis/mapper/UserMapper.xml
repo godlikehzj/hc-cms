@@ -4,10 +4,10 @@
 
 
     <select id="getUsers" resultType="com.hongchao.cms.bean.User">
-        SELECT * FROM users WHERE role = #{role} and status = #{status}
-        and if(#{province}, province = #{province}, TRUE)
-    and if(#{city}, city = #{city}, TRUE)
-    and if(#{district}, district = #{district}, TRUE)
+        SELECT * , (SELECT hname as lastHouse FROM house WHERE id = u.lastHouse) FROM users as u WHERE u.role = #{role} and u.status = #{status}
+        and if(#{province}, u.province = #{province}, TRUE)
+    and if(#{city}, u.city = #{city}, TRUE)
+    and if(#{district}, u.district = #{district}, TRUE)
     </select>
     <!--<select id="getCustomer" resultType="com.godlikehzj.guangming.bean.Customer">-->
         <!--<![CDATA[-->
@@ -47,12 +47,26 @@
     <select id="getAchieveHisByUser" resultType="com.hongchao.cms.bean.AchieveHistory">
         SELECT h.hname, a.createDate, a.num, a.weight
         FROM achieve_history as a, house as h
-        WHERE a.uid = #{userId} and h.id = a.hid ORDER BY a.id DESC ;
+        WHERE a.uid = #{userId} and h.id = a.hid and a.createDate BETWEEN #{from} and #{to} ORDER BY a.id DESC ;
     </select>
 
     <select id="getOrderHistory" resultType="com.hongchao.cms.bean.Order">
-        SELECT h.hname, c.description as commodityName, o.orderSn, o.createTime, o.pay_method ,c.price
+        SELECT h.hname, c.description as commodityName, o.orderSn, o.createTime, o.pay_method ,c.price, o.status
         FROM pay_orders as o,house as h, commodity as c
-        WHERE o.uid = #{userId} and o.hid = h.id and c.id = o.commodityId ORDER BY o.id DESC ;
+        WHERE o.uid = #{userId} and o.hid = h.id and c.id = o.commodityId and o.createTime BETWEEN #{from} and #{to} ORDER BY o.id DESC ;
     </select>
+
+    <select id="getUsersByhouseId" resultType="com.hongchao.cms.bean.User">
+        SELECT * FROM users WHERE role = #{role} and (houseIds = #{houseId} or
+        houseIds like concat('%,', #{houseId}) or houseIds like concat(#{houseId}, ',%')
+        or houseIds like concat('%,', #{houseId}, ',%'))
+    </select>
+
+    <select id="getSorterByHouseId" resultType="long">
+        SELECT sorter FROM house WHERE id=#{houseId}
+    </select>
+
+    <update id="updateSorterByHouseId">
+        UPDATE house SET sorter = #{uid} WHERE id=#{houseId}
+    </update>
 </mapper>

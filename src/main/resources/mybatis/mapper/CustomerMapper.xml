@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongchao.cms.service.mapper.CustomerMapper">
+
+
+    <select id="getCustomerList" resultType="com.hongchao.cms.bean.CustomerInfo">
+        SELECT * FROM customer WHERE statu = #{statu}
+    </select>
+
+    <select id="getCustomerById" resultType="com.hongchao.cms.bean.CustomerInfo">
+        SELECT * FROM customer WHERE id= #{id}
+    </select>
+
+    <update id="changeStatu">
+        UPDATE customer SET statu = #{statu} WHERE id = #{customerId}
+    </update>
+
+    <select id="getCustomerActionById" resultType="com.hongchao.cms.bean.CustomerAction">
+        SELECT a.houseId, a.doorId, a.createTime  FROM customer_action as a, customer as c WHERE a.houseId = #{houseId} and a.customerId = c.id ORDER BY a.id DESC ;
+    </select>
+
+    <select id="getCustomerWeightById" resultType="com.hongchao.cms.bean.CustomerWeight">
+        SELECT w.id, h.hname, w.createTime, w.category, w.weight, w.rid FROM weight_history as w, house as h WHERE w.customerId = #{id}  and w.hid = h.id and w.createTime BETWEEN #{from} and #{to} ORDER BY w.rid DESC ;
+    </select>
+
+    <select id="getPic" resultType="String">
+        SELECT uri FROM photo WHERE rid = #{rid} and type = #{type};
+    </select>
+
+    <select id="getTimes" resultType="Integer">
+        SELECT count(DISTINCT rid) FROM weight_history WHERE customerId = #{id} and createTime BETWEEN #{from} AND #{to};
+    </select>
+
+    <select id="getMallOrderByCustomer" resultType="com.hongchao.cms.bean.MallOrder">
+        SELECT u.nick , o.num, c.name as commodityName, c.description, c.cost_point, c.img, o.createTime  FROM mall_orders as o , mall_commodity as c , customer as u WHERE  o.customerId = #{id} and o.customerId = u.id and o.commodityId = c.id and o.createTime BETWEEN #{from} AND #{to};
+    </select>
+
+</mapper>

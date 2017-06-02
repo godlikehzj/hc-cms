@@ -13,5 +13,6 @@
     <aop:aspectj-autoproxy />
     <import resource="spring-servlet.xml" />
     <import resource="applicationContext-dataSource.xml" />
+    <import resource="application-cache.xml"/>
     <bean class="com.hongchao.cms.util.SpringContext"></bean>
 </beans>

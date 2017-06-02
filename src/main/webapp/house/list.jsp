@@ -16,6 +16,7 @@
   </div>
   <div class="outlet">
     <div class="row">
+
       <div class="col-lg-12">
         <!-- col-lg-12 start here -->
         <div class="panel panel-default plain toggle panelClose panelRefresh">
@@ -38,10 +39,12 @@
               <tr>
                 <th>id</th>
                 <th>名称</th>
-                <th>描述</th>
-                <th>位置</th>
+                <th>温度</th>
+                <th>湿度</th>
+                <th>烟感</th>
+                <th>有害气体</th>
+                <th>容量</th>
                 <th>操作</th>
-                <th>详细信息</th>
               </tr>
               </thead>
 
@@ -50,10 +53,20 @@
                 <tr>
                   <td>${house.id}</td>
                   <td>${house.hname}</td>
-                  <td>${house.addr}</td>
-                  <td>${house.lng},${house.lat}</td>
-                  <td><a href="javascript:void(0);" onclick="changeStatu(${house.id}, ${status});" >${status==1?"下线":"上线"}</a> | <a href="javascript:void(0);" onclick="house.toEdit_house(${house.id});" >修改</a> </td>
-                  <td><a href="javascript:void(0);" onclick="house.getDetails(${house.id})">查看</a></td>
+                  <td>${house.temperature}度</td>
+                  <td>${house.humidity}%</td>
+                  <td><c:choose>
+                    <c:when test="${house.gas == 1}">超标</c:when>
+                    <c:when test="${house.gas == 0}">正常</c:when>
+                  </c:choose></td>
+                  <td><c:choose>
+                    <c:when test="${house.aq == 1}">超标</c:when>
+                    <c:when test="${house.aq == 0}">正常</c:when>
+                  </c:choose></td>
+                  <td>${house.capacity}</td>
+                  <td><a href="javascript:void(0);" onclick="changeStatu(${house.id}, ${status});" >${status==1?"下线":"上线"}</a> |
+                    <a href="javascript:void(0);" onclick="house.toEdit_house(${house.id});" >修改</a> |
+                    <a href="javascript:void(0);" onclick="house.getDetails(${house.id})">查看</a></td>
                 </tr>
               </c:forEach>
 

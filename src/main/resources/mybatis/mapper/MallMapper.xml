@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hongchao.cms.service.mapper.MallMapper">
+
+
+    <select id="getCommodityList" resultType="com.hongchao.cms.bean.MallCommodity">
+        SELECT * FROM mall_commodity WHERE statu = #{statu}
+    </select>
+
+    <update id="changeStatu">
+        UPDATE mall_commodity SET statu = #{statu} WHERE id = #{id}
+    </update>
+
+    <select id="getCommodityById" resultType="com.hongchao.cms.bean.MallCommodity">
+        SELECT * FROM mall_commodity WHERE id = #{id}
+    </select>
+
+    <insert id="addCommodity" parameterType="com.hongchao.cms.bean.MallCommodity">
+        INSERT INTO mall_commodity(name, description, cost_point, img, statu)
+        VALUES (#{name}, #{description}, #{cost_point}, #{img}, #{statu})
+    </insert>
+</mapper>

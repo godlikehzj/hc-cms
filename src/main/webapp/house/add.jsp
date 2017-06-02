@@ -21,6 +21,12 @@
         </div>
         <div class="panel-body">
           <form id="create_house" name="create_house" class="form-horizontal group-border hover-stripped" role="form">
+              <div class="form-group">
+                  <label class="col-lg-2 col-md-2 col-sm-12 control-label">ID</label>
+                  <div class="col-lg-10 col-md-10">
+                      <input type="text" class="form-control" id = "houseId" name="houseId" placeholder="" autofocus="autofocus">
+                  </div>
+              </div>
             <div class="form-group">
               <label class="col-lg-2 col-md-2 col-sm-12 control-label">名称</label>
               <div class="col-lg-10 col-md-10">
@@ -45,17 +51,17 @@
             <div class="form-group">
               <div class="col-lg-2 col-md-2 col-sm-12 control-label ">
                 <button id="create_house_button" type="button" onclick="add()" class="btn btn-success">提交</button>
-
+                  <button onclick="house.getHouseList(1)" type="button" class="btn btn-primary">返回</button>
               </div>
             </div>
           </form>
           <div id="container"
                style="
-                                    margin-top:30px;
-                                    width: 730px;
-                                    height: 590px;
+
+                                    width: 100%;
+                                    height: 400px;
                                     top: 50px;
-                                    border: 1px solid gray;
+                                    /*border: 1px solid gray;*/
                                     overflow:hidden;">
           </div>
         </div>
@@ -74,8 +80,25 @@
         var despcription = $('#despcription').val();
         var addr = $('#addr').val();
         var location = $('#location').val();
+        var houseId = $('#houseId').val();
 
-        var param = "hname=" + hname + "&addr=" + addr + "&location=" + location;
+        if (houseId == ""){
+            alert("请填写垃圾屋ID");
+            return;
+        }
+        if(hname == ""){
+            alert("请填写垃圾屋名称");
+            return;
+        }
+        if (addr == ""){
+            alert("请填写垃圾屋地址");
+            return;
+        }
+        if (location == ""){
+            alert("请点击查找定位");
+            return;
+        }
+        var param = "hid="+houseId+"&hname=" + hname + "&addr=" + addr + "&location=" + location;
         house.add_house(param);
     }
 //        $('#create_house_button').bind('click', function () {
@@ -89,7 +112,19 @@
 //        };
 //        $('#create_house').ajaxForm(options);
     var map = new BMap.Map("container");
-    map.centerAndZoom("北京", 12);
+
+    var city;
+    if ($('#selDistrict').val() != 0){
+        city = $('#selDistrict').find("option:selected").text();
+    }else if($('#selCity').val() != 0){
+        city = $('#selProvince').find("option:selected").text() + $('#selCity').find("option:selected").text();;
+    }else if($('#selProvince').val() != 0){
+        city = $('#selProvince').find("option:selected").text();
+    }else{
+        city = "北京";
+    }
+
+    map.centerAndZoom(city, 12);
     map.enableScrollWheelZoom();    //启用滚轮放大缩小，默认禁用
     map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
 

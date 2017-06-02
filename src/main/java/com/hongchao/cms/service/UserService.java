@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,7 +42,31 @@ public class UserService {
         if (userMapper.getUserByMobile(mobile) != null){
             return new ResponseEntity(1, "手机用户已存在","");
         }
+        if(role == 1){
+            String[] house = houseIds.split(",");
+            for(String houseId :house){
+                List<User> user = userMapper.getUsersByhouseId(Long.valueOf(houseId), role);
+                if (user.size() > 0 && !user.get(0).getMobile().equals(mobile)){
+                    return new ResponseEntity(1,"house is assigned", houseId);
+                }
+            }
+        }
         userMapper.addUser(role, mobile, name, houseIds, province, city, district);
+
+        return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
+    }
+
+    public ResponseEntity editUser(long id, String mobile, String name, String houseIds, int role){
+        if(role == 1 && !houseIds.isEmpty()){
+            String[] house = houseIds.split(",");
+            for(String houseId :house){
+                List<User> user = userMapper.getUsersByhouseId(Long.valueOf(houseId), role);
+                if (user.size() > 0 && !user.get(0).getMobile().equals(mobile)){
+                    return new ResponseEntity(1,"house is assigned", houseId);
+                }
+            }
+        }
+        userMapper.editUser(houseIds, mobile, name, id);
         return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
     }
 
@@ -59,15 +84,12 @@ public class UserService {
         return userMapper.getUserByid(id);
     }
 
-    public ResponseEntity editUser(long id, String mobile, String name, String houseIds){
-        userMapper.editUser(houseIds, mobile, name, id);
-        return new ResponseEntity(SysApiStatus.OK, SysApiStatus.getMessage(SysApiStatus.OK), "");
-    }
-    public List<AchieveHistory> getAchieveHistoryByUser(long userId){
-        return userMapper.getAchieveHisByUser(userId);
+
+    public List<AchieveHistory> getAchieveHistoryByUser(long userId, String from, String to){
+        return userMapper.getAchieveHisByUser(userId, from, to);
     }
 
-    public List<Order> getOrderHistoryByUser(long userId){
-        return userMapper.getOrderHistory(userId);
+    public List<Order> getOrderHistoryByUser(long userId, String from, String to){
+        return userMapper.getOrderHistory(userId, from, to);
     }
 }

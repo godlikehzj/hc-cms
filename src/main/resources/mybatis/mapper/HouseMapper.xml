@@ -11,9 +11,18 @@
     ]]>
     </select>
 
+    <select id="getHouseListByUid" resultType="com.hongchao.cms.bean.HouseInfo">
+        SELECT h.* FROM house as h WHERE status = #{status} and if(#{province}, h.province = #{province}, TRUE)
+    and if(#{city}, h.city = #{city}, TRUE)
+    and if(#{district}, h.district = #{district}, TRUE)
+    and NOT EXISTS (SELECT * from users as u WHERE u.role = 1 and ((u.houseIds like h.id
+or u.houseIds like concat('%,', h.id) or u.houseIds like concat(h.id, ',%')
+        or u.houseIds like concat('%,', h.id, ',%')) and u.id != #{uid}))
+    </select>
+
     <insert id="createHouse">
-        INSERT INTO house(hname, addr, lng, lat, status, indoor, outdoor, res_info, province, city, district) VALUES
-        (#{hname}, #{addr}, #{lng}, #{lat}, 1, "111111111", "111111111", "000000000", #{province}, #{city}, #{district});
+        INSERT INTO house(id, hname, addr, lng, lat, status, indoor, outdoor, res_info, province, city, district) VALUES
+        (#{hid}, #{hname}, #{addr}, #{lng}, #{lat}, 1, "111111111", "111111111", "000000000", #{province}, #{city}, #{district});
     </insert>
     <!--<insert id="addCustomer" parameterType="com.godlikehzj.guangming.bean.Customer"  useGeneratedKeys="true" keyProperty="id">-->
     <!--INSERT INTO customer(name, phone, addr, area) VALUES (#{name}, #{phone}, #{addr}, #{area})-->
@@ -34,7 +43,7 @@
     <select id="getFixHistory" resultType="com.hongchao.cms.bean.FixHistory">
         SELECT u.mobile, u.name, fh.hid, fh.fid as content, fh.createTime, fh.other_content,fh.status
         FROM users as u, fix_history as fh
-        WHERE fh.hid = #{houseId} and fh.uid = u.id  ORDER BY fh.createTime DESC;
+        WHERE fh.hid = #{houseId} and fh.uid = u.id  and fh.createTime BETWEEN  #{from} and #{to} ORDER BY fh.createTime DESC;
     </select>
 
     <select id="getFixContents" resultType="com.hongchao.cms.bean.FixContent">
@@ -42,20 +51,75 @@
     </select>
 
     <select id="getUsersByhouseId" resultType="com.hongchao.cms.bean.User">
-        SELECT * FROM users WHERE role = #{role} and houseIds = #{houseId} or
+        SELECT * FROM users WHERE role = #{role} and (houseIds = #{houseId} or
         houseIds like concat('%,', #{houseId}) or houseIds like concat(#{houseId}, ',%')
-        or houseIds like concat('%,', #{houseId}, ',%')
+        or houseIds like concat('%,', #{houseId}, ',%'))
     </select>
 
     <select id="getAchieveHis" resultType="com.hongchao.cms.bean.AchieveHistory">
         SELECT u.mobile, u.name, h.hname, a.createDate, a.num, a.weight
         FROM achieve_history as a, users as u, house as h
-        WHERE a.hid = #{houseId} and u.id = a.uid and h.id = a.hid ORDER BY a.id DESC ;
+        WHERE a.hid = #{houseId} and a.type = #{type} and u.id = a.uid and h.id = a.hid and a.createDate BETWEEN  #{from} and #{to} ORDER BY a.id DESC ;
     </select>
 
     <select id="getOrderHistory" resultType="com.hongchao.cms.bean.Order">
         SELECT u.mobile, u.name, c.description as commodityName, o.orderSn, o.createTime, o.pay_method ,c.price
          FROM pay_orders as o, users as u, commodity as c
-        WHERE o.hid = #{houseId} and o.uid = u.id and c.id = o.commodityId ORDER BY o.id DESC ;
+        WHERE o.hid = #{houseId} and o.uid = u.id and c.id = o.commodityId and o.createTime BETWEEN #{from} and #{to} ORDER BY o.id DESC ;
+    </select>
+
+    <select id="getHandleStatus" resultType="com.hongchao.cms.bean.HandleHistory">
+        SELECT hh.id, u.mobile, u.name, h.hname, hh.handle_statu, hh.handleTime
+        FROM house as h, users as u, handle_history as hh
+        WHERE hh.hid = #{houseId} and u.id = hh.uid and h.id = #{houseId} and hh.handle_statu = 1;
+    </select>
+
+    <select id="getHandleStatusByUser" resultType="com.hongchao.cms.bean.HandleHistory">
+        SELECT hh.id, u.mobile, u.name, h.hname, hh.handle_statu, hh.handleTime
+        FROM house as h, users as u, handle_history as hh
+        WHERE hh.uid = #{uid} and u.id = hh.uid and h.id = hh.hid and hh.handle_statu = 1;
+    </select>
+
+    <select id="getAllHandleHistory" resultType="com.hongchao.cms.bean.HandleHistory">
+        SELECT hh.id, u.mobile, u.name, h.hname, hh.handle_statu, hh.handleTime
+        FROM house as h, users as u, handle_history as hh
+        WHERE hh.type = #{type} and u.id = hh.uid and h.id = hh.hid ORDER BY hh.handleTime DESC;
+    </select>
+
+    <select id="getWeightHistory" resultType="com.hongchao.cms.bean.WeightHistory">
+        SELECT w.category, w.weight, w.createTime
+        FROM house as h, users as u, weight_history as w
+        WHERE w.hid = #{houseId} and u.id = w.uid and w.hid = h.id ORDER BY w.createTime;
+    </select>
+
+    <select id="getSortHistory" resultType="com.hongchao.cms.bean.WeightHistory">
+        SELECT c.nick, w.category, w.weight, p.createTime, p.uri as photo FROM photo as p , weight_history as w, customer as c
+        WHERE p.hid = #{houseId} and p.rid = w.rid and p.customerId = w.customerId and p.customerId = c.id and w.createTime BETWEEN #{from} AND #{to};
+    </select>
+
+    <select id="getSortHistoryByUser" resultType="com.hongchao.cms.bean.WeightHistory">
+        SELECT c.nick, w.category, w.weight, p.createTime, p.uri as photo FROM photo as p , weight_history as w, customer as c
+        WHERE w.uid =#{userId} and p.rid = w.rid and p.customerId = w.customerId and p.customerId = c.id;
+    </select>
+
+    <select id="getAllSortHistory" resultType="com.hongchao.cms.bean.WeightHistory">
+        SELECT u.name as user, w.category, w.weight, w.createTime, h.hname FROM weight_history as w, users as u ,house as h
+        WHERE w.uid = u.id and w.hid = h.id ORDER BY w.createTime;
+    </select>
+
+    <select id="getCustormerAction" resultType="com.hongchao.cms.bean.CustomerAction">
+        SELECT c.nick,a.houseId, a.doorId, a.createTime  FROM customer_action as a, customer as c WHERE a.houseId = #{houseId} and a.customerId = c.id and a.createTime BETWEEN #{from} and #{to} ORDER BY a.id DESC ;
+    </select>
+
+    <select id="getPutTimes" resultType="Integer">
+        SELECT count(DISTINCT rid) FROM weight_history WHERE hid=#{hid} and createTime BETWEEN #{from} AND #{to};
+    </select>
+
+    <select id="getCustomerWeightByHid" resultType="com.hongchao.cms.bean.CustomerWeight">
+        SELECT w.id, c.nick, h.hname, w.createTime, w.category, w.weight, w.rid FROM weight_history as w, house as h , customer as c WHERE w.hid = #{hid}  and w.uid = c.id and w.hid = h.id and w.createTime BETWEEN #{from} and #{to} ORDER BY w.rid DESC ;
+    </select>
+
+    <select id="getCabinetInfo" resultType="com.hongchao.cms.bean.CabinetInfo">
+        SELECT * FROM house_cabinet WHERE houseId = #{houseId} ORDER BY doorId;
     </select>
 </mapper>

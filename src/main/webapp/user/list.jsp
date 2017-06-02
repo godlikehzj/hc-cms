@@ -27,6 +27,7 @@
             <div class="row">
               <div class="col-md-6 col-xs-12 ">
                 <button id="create_house" onclick="user.toAdd_user(${role})" type="button" class="btn btn-success">新建</button>
+                <button onclick="user.getAllInfo(${role})" type="button" class="btn btn-primary">全部信息</button>
                 <select id="select_statu" style="margin-left: 20px" onchange="queryByStatus()">
                   <option value="1" <c:if test="${status==1}">selected="selected" </c:if>>正常</option>
                   <option value="0" <c:if test="${status==0}">selected="selected" </c:if>>冻结</option>
@@ -39,8 +40,7 @@
                 <th>id</th>
                 <th>电话</th>
                 <th>姓名</th>
-                <th>垃圾屋ID</th>
-                <th>业绩</th>
+                <th>最近处理垃圾屋</th>
                 <th>操作</th>
               </tr>
               </thead>
@@ -51,9 +51,10 @@
                   <td>${user.id}</td>
                   <td>${user.mobile}</td>
                   <td>${user.name}</td>
-                  <td>${user.houseIds}</td>
-                  <td><a href="javascript:void(0);" onclick="user.getDetails(${role}, ${user.id})">查看</a></td>
-                  <td><a href="javascript:void(0);" onclick="changeStatu(${user.id}, ${status});" >${status==1?"冻结":"解冻"}</a> | <a href="javascript:void(0);" onclick="user.toEdit_user(${user.id}, ${role});" >修改</a> </td>
+                  <td>${user.lastHouseName}</td>
+                  <td><a href="javascript:void(0);" onclick="changeStatu(${user.id}, ${status});" >${status==1?"冻结":"解冻"}</a> |
+                    <a href="javascript:void(0);" onclick="user.toEdit_user(${user.id}, ${role});" >修改</a>|
+                    <a href="javascript:void(0);" onclick="user.getDetails(${role}, ${user.id})">查看</a></td>
                 </tr>
               </c:forEach>
 

@@ -49,6 +49,7 @@
             <div class="form-group">
               <div class="col-lg-2 col-md-2 col-sm-12 control-label ">
                 <button id="create_user_button" type="button" onclick="addUser()" class="btn btn-success">提交</button>
+                <button onclick="user.getUserList(${role}, 1)" type="button" class="btn btn-primary">返回</button>
 
               </div>
             </div>
@@ -67,6 +68,9 @@
   var houseIds="";
   $('#houseList').multiselect(
           {
+            includeSelectAllOption: true,
+            selectAllText: '全部选择',
+            enableFiltering: true,
             buttonWidth: '100%',
             buttonText: function (options, select) {
               if (options.length === 0) {

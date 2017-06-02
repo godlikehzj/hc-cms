@@ -14,6 +14,7 @@ public class Order {
     private String pay_method;
     private String hname;
     private int price;
+    private int status;
 
     public Order() {
     }
@@ -80,5 +81,13 @@ public class Order {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

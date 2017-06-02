@@ -45,6 +45,7 @@
             <div class="form-group">
               <div class="col-lg-2 col-md-2 col-sm-12 control-label ">
                 <button id="create_house_button" type="button" onclick="editHouse(${houseInfo.id})" class="btn btn-success">提交</button>
+                <button onclick="house.getHouseList(1)" type="button" class="btn btn-primary">返回</button>
 
               </div>
             </div>

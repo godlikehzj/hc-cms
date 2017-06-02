@@ -1,4 +1,82 @@
 //------------- charts.js -------------//
+var initPieChart = function(lineWidth, size, animateTime, colours) {
+	$(".pie-chart").easyPieChart({
+		barColor: colours.dark,
+		borderColor: colours.dark,
+		trackColor: '#d9dde2',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+}
+
+//Setup easy pie charts in page
+var initPieChartPage = function(lineWidth, size, animateTime, colours) {
+
+	$(".easy-pie-chart").easyPieChart({
+		barColor: colours.dark,
+		borderColor: colours.dark,
+		trackColor: colours.gray,
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+	$(".easy-pie-chart-red").easyPieChart({
+		barColor: colours.red,
+		borderColor: colours.red,
+		trackColor: '#fbccbf',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+	$(".easy-pie-chart-green").easyPieChart({
+		barColor: colours.green,
+		borderColor: colours.green,
+		trackColor: '#b1f8b1',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+	$(".easy-pie-chart-blue").easyPieChart({
+		barColor: colours.blue,
+		borderColor: colours.blue,
+		trackColor: '#d2e4fb',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+	$(".easy-pie-chart-teal").easyPieChart({
+		barColor: colours.teal,
+		borderColor: colours.teal,
+		trackColor: '#c3e5e5',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+	$(".easy-pie-chart-purple").easyPieChart({
+		barColor: colours.purple,
+		borderColor: colours.purple,
+		trackColor: '#dec1f5',
+		scaleColor: false,
+		lineCap: 'butt',
+		lineWidth: lineWidth,
+		size: size,
+		animate: animateTime
+	});
+
+}
 $(document).ready(function() {
 
 	//get object with colros from plugin and store it.
@@ -783,81 +861,3 @@ $(document).ready(function() {
 });
 
 //Setup easy pie charts in sidebar
-var initPieChart = function(lineWidth, size, animateTime, colours) {
-	$(".pie-chart").easyPieChart({
-        barColor: colours.dark,
-        borderColor: colours.dark,
-        trackColor: '#d9dde2',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-}
-
-//Setup easy pie charts in page
-var initPieChartPage = function(lineWidth, size, animateTime, colours) {
-
-	$(".easy-pie-chart").easyPieChart({
-        barColor: colours.dark,
-        borderColor: colours.dark,
-        trackColor: colours.gray,
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-    $(".easy-pie-chart-red").easyPieChart({
-        barColor: colours.red,
-        borderColor: colours.red,
-        trackColor: '#fbccbf',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-    $(".easy-pie-chart-green").easyPieChart({
-        barColor: colours.green,
-        borderColor: colours.green,
-        trackColor: '#b1f8b1',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-    $(".easy-pie-chart-blue").easyPieChart({
-        barColor: colours.blue,
-        borderColor: colours.blue,
-        trackColor: '#d2e4fb',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-    $(".easy-pie-chart-teal").easyPieChart({
-        barColor: colours.teal,
-        borderColor: colours.teal,
-        trackColor: '#c3e5e5',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-    $(".easy-pie-chart-purple").easyPieChart({
-        barColor: colours.purple,
-        borderColor: colours.purple,
-        trackColor: '#dec1f5',
-        scaleColor: false,
-        lineCap: 'butt',
-        lineWidth: lineWidth,
-        size: size,
-        animate: animateTime
-    });
-
-}

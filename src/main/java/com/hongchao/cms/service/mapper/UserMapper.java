@@ -6,6 +6,7 @@ import com.hongchao.cms.bean.Order;
 import com.hongchao.cms.bean.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,10 @@ public interface UserMapper {
                                @Param("province") int province,
                                @Param("city") int city,
                                @Param("district") int district);
+    public List<User> getSortUsers(@Param("status") int status,
+                                   @Param("province") int province,
+                                   @Param("city") int city,
+                                   @Param("district") int district);
     public void addUser(@Param("role") int role,
                         @Param("mobile") String mobile,
                         @Param("name") String name,
@@ -36,8 +41,10 @@ public interface UserMapper {
                          @Param("userId") long userId);
 
     public AdminUser getAdminUser(@Param("passport") String passport);
-    public List<AchieveHistory> getAchieveHisByUser(@Param("userId") long userId);
-    public List<Order> getOrderHistory(@Param("userId") long userId);
+    public List<AchieveHistory> getAchieveHisByUser(@Param("userId") long userId, @Param("from") String from, @Param("to") String to);
+    public List<Order> getOrderHistory(@Param("userId") long userId, @Param("from") String from, @Param("to") String to);
 
-
+    public List<User> getUsersByhouseId(@Param("houseId") long houseId, @Param("role") int role);
+//    public long getSorterByHouseId(@Param("houseId") long houseId);
+//    public void updateSorterByHouseId(@Param("houseId") long houseId, @Param("uid") long uid);
 }

@@ -12,6 +12,7 @@ public class User {
     private Date create_time;
     private Date modify_time;
     private String houseIds;
+    private String lastHouseName;
 
     public User() {
     }
@@ -62,5 +63,13 @@ public class User {
 
     public void setHouseIds(String houseIds) {
         this.houseIds = houseIds;
+    }
+
+    public String getLastHouseName() {
+        return lastHouseName;
+    }
+
+    public void setLastHouseName(String lastHouseName) {
+        this.lastHouseName = lastHouseName;
     }
 }
