@@ -291,8 +291,8 @@ public class HouseController extends BaseController{
         modelMap.addAttribute("wet", wet);
         modelMap.addAttribute("dry", dry);
 
-        List<CustomerAction> customerActions = houseService.getCustomerAction(houseId, from, to);
-        modelMap.put("actions", customerActions);
+//        List<CustomerAction> customerActions = houseService.getCustomerAction(houseId, from, to);
+//        modelMap.put("actions", customerActions);
 
         HouseInfo houseInfo = houseService.getHouseById(houseId);
         modelMap.put("houseInfo", houseInfo);

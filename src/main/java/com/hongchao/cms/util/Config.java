@@ -12,7 +12,8 @@ import java.util.Map;
  * Created by godlikehzj on 2017/1/26.
  */
 public class Config {
-    public static String imgPath = "./";
+    public static String imgPath = "/opt/www/files/mall";
+    public static String imgUrl = "http://www.bjhongchaohuanbao.com/files/mall/";
     private static Map<Integer, String> fixContents = new HashMap<>();
 
     public static Map<Integer, String> getFixContents(){

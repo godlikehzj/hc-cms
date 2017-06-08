@@ -22,7 +22,7 @@
                 <div class="panel-body">
                     <input type="hidden" name="id" value="${commodity.id}">
 
-                    <form id="create_mc" name="create_mc" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped">
+                    <form id="create_mc" name="create_mc" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped" method="post">
                         <div class="form-group">
                             <label class="col-lg-2 col-md-2 col-sm-12 control-label">名称</label>
                             <div class="col-lg-10 col-md-10">
@@ -32,14 +32,14 @@
                         <div class="form-group">
                             <label class="col-lg-2 col-md-2 col-sm-12 control-label">描述</label>
                             <div class="col-lg-10 col-md-10">
-                                <input type="text" class="form-control" id = "description" name="description" placeholder="" value="${commodity.description} autofocus="autofocus">
+                                <input type="text" class="form-control" id = "description" name="description" placeholder="" value="${commodity.description}" autofocus="autofocus">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-lg-2 col-md-2 col-sm-12 control-label">消耗积分</label>
                             <div class="col-lg-10 col-md-10">
-                                <input type="text" class="form-control" id = "cost_point" name="cost_point" placeholder="" value="${commodity.cost_point} autofocus="autofocus">
+                                <input type="text" class="form-control" id = "cost_point" name="cost_point" placeholder="" value="${commodity.cost_point}" autofocus="autofocus">
                             </div>
                         </div>
 

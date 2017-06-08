@@ -20,7 +20,7 @@
           <h3 class="panel-title">创建商品</h3>
         </div>
         <div class="panel-body">
-          <form id="create_mc" name="create_mc" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped">
+          <form id="create_mc" name="create_mc" method="post" enctype="multipart/form-data" action="${ctx}/mall/add.do" class="form-horizontal group-border hover-stripped">
             <div class="form-group">
               <label class="col-lg-2 col-md-2 col-sm-12 control-label">名称</label>
               <div class="col-lg-10 col-md-10">

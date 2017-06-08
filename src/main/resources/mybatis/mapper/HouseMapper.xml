@@ -116,7 +116,7 @@ or u.houseIds like concat('%,', h.id) or u.houseIds like concat(h.id, ',%')
     </select>
 
     <select id="getCustomerWeightByHid" resultType="com.hongchao.cms.bean.CustomerWeight">
-        SELECT w.id, c.nick, h.hname, w.createTime, w.category, w.weight, w.rid FROM weight_history as w, house as h , customer as c WHERE w.hid = #{hid}  and w.uid = c.id and w.hid = h.id and w.createTime BETWEEN #{from} and #{to} ORDER BY w.rid DESC ;
+        SELECT w.id, c.nick, h.hname, w.createTime, w.category, w.weight, w.rid FROM weight_history as w, house as h , customer as c WHERE w.hid = #{hid}  and w.customerId = c.id and w.hid = h.id and w.createTime BETWEEN #{from} and #{to} ORDER BY w.rid DESC ;
     </select>
 
     <select id="getCabinetInfo" resultType="com.hongchao.cms.bean.CabinetInfo">

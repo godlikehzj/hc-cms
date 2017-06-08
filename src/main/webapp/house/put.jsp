@@ -239,10 +239,9 @@
   var wet = ${wet};
   var total = ${total};
   var data = [
-    { label: "总重量:" + total + "克",  data: dry*100/total, color: colours.blue},
+    { label: "减量:" + (total - wet - dry) + "克",  data: (total - wet - dry)*100/total, color: colours.red},
     { label: "干垃圾:" + dry + "克",  data: dry*100/total, color: colours.blue},
     { label: "湿垃圾:" + wet + "克",  data: wet*100/total, color: colours.green},
-    { label: "减量:" + (total - wet - dry) + "克",  data: (total - wet - dry)*100/total, color: colours.red}
   ];
   $.plot($("#pie-chart"), data, options);
 

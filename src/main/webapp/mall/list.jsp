@@ -53,7 +53,7 @@
                   <td>${commodity.cost_point}</td>
                   <td><a href="${commodity.img}" target="view_window">点击查看</a></td>
                   <td><a href="javascript:void(0);" onclick="changeStatu(${commodity.id}, ${status});" >${status==1?"下线":"上线"}</a> |
-                    <a href="javascript:void(0);" onclick="mall.toEdit_Commodity(${commodity.id});" >修改</a>|</td>
+                    <a href="javascript:void(0);" onclick="mall.toEdit_Commodity(${commodity.id});" >修改</a></td>
                 </tr>
               </c:forEach>
 

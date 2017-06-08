@@ -2,6 +2,21 @@ var addr = "http://localhost:8082/";
 //var addr = "http://www.bjhongchaohuanbao.com/cms/";
 var timerId;
 
+function getFormatDate(strdate) {
+    var date = new Date(strdate);
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+}
 function getNowFormatDate() {
     var date = new Date();
     var seperator1 = "-";
@@ -183,6 +198,11 @@ var house = {
             from = getNowFormatDate();
             to = getNowFormatDate();
         }
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
+        }
         var url = addr + "house/fixHis.do?houseId="+houseId + "&from=" + from + "&to="+ to;
         getContent(url);
     },
@@ -194,6 +214,11 @@ var house = {
         if (from == undefined || to == undefined){
             from = getNowFormatDate();
             to = getNowFormatDate();
+        }
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
         }
         var url = addr + "house/achieveHis.do?houseId="+houseId + "&from=" + from + "&to="+ to;
         getContent(url);
@@ -208,7 +233,11 @@ var house = {
             from = getNowFormatDate();
             to = getNowFormatDate();
         }
-
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
+        }
         var url = addr + "house/orderHis.do?houseId="+houseId + "&from=" + from + "&to="+ to;
         getContent(url);
     },
@@ -221,6 +250,11 @@ var house = {
             from = getNowFormatDate();
             to = getNowFormatDate();
         }
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
+        }
         var url = addr + "house/sortHis.do?houseId="+houseId+ "&from=" + from + "&to="+ to;
         getContent(url);
     },
@@ -232,6 +266,11 @@ var house = {
         if (from == undefined || to == undefined){
             from = getNowFormatDate();
             to = getNowFormatDate();
+        }
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
         }
         var url = addr + "house/putHis.do?houseId="+houseId+ "&from=" + from + "&to="+ to;
         getContent(url);
@@ -357,6 +396,12 @@ var user = {
             to = getNowFormatDate();
         }
 
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
+        }
+
         var url;
         if (role == 3){
             url = addr + "user/orderHis.do?userId="+userId + "&role=" + role + "&from=" + from + "&to="+ to;
@@ -399,6 +444,12 @@ var customer = {
         if (from == undefined || to == undefined){
             from = getNowFormatDate();
             to = getNowFormatDate();
+        }
+
+        if (from == to){
+            var todate = new Date(to);
+            todate = new Date((todate/1000 + 86400) * 1000);
+            to = getFormatDate(todate);
         }
         var url = addr + "customer/detail.do?customerId="+customerId + "&from=" + from + "&to="+ to;
         getContent(url);

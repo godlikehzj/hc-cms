@@ -2,6 +2,7 @@ package com.hongchao.cms.service;
 
 import com.hongchao.cms.bean.MallCommodity;
 import com.hongchao.cms.service.mapper.MallMapper;
+import com.hongchao.cms.util.Config;
 import com.hongchao.cms.util.FileUtil;
 import com.hongchao.cms.util.ResponseEntity;
 import com.hongchao.cms.util.SysApiStatus;
@@ -49,6 +50,7 @@ public class MallService {
                 filename = formatter.format(new Date()) + name.substring(name.lastIndexOf("."));
                 if (FileUtil.uploadFile(orginalFile.getInputStream(), uploadPath, filename)) {
                     System.out.println(filename);
+                    filename = Config.imgUrl + filename;
                 }
             }
         }catch (IOException e){
